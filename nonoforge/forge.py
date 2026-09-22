@@ -354,8 +354,15 @@ def _git_setup(folder: Path, name: str) -> bool:
     """Best-effort: never let version control break somebody's project."""
     if not shutil.which("git"):
         return False
+    # Written only when git was asked for, so a plain project folder stays as
+    # small and as uncluttered as possible.
+    (folder / ".gitignore").write_text(
+        "# Things Python leaves behind. You can ignore this file entirely.\n"
+        "__pycache__/\n*.py[cod]\ndata/\n*.log\n",
+        encoding="utf-8",
+    )
     commands = [
-        ["git", "init", "-q"],
+        ["git", "init", "-q", "-b", "main"],
         ["git", "add", "-A"],
         ["git", "-c", "user.name=" + APP_NAME, "-c", "user.email=nonoForge@localhost",
          "commit", "-qm", "Made with %s" % APP_NAME],
