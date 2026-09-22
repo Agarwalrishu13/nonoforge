@@ -172,7 +172,7 @@ nonoforge/
 │   ├── recipes.py      # reading the cards, and guessing which one you meant
 │   ├── store.py        # settings, the list of projects, safe folder names
 │   ├── httpbase.py     # the mini web toolkit (routing, JSON, SSE, uploads)
-│   ├── runtime/serve.py# the ~230-line engine copied into every project it makes
+│   ├── runtime/serve.py# the 400-line engine copied into every project it makes
 │   └── recipes/        # the six cards
 ├── tests/test_smoke.py # 40 tests, including "does every card actually work"
 └── start.py, run.bat, run.sh

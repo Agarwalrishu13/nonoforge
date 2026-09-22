@@ -3,7 +3,7 @@
 Ask your own notes a question and get back the passages that answer it.
 
 Made with [nonoForge](https://github.com/Agarwalrishu13/nonoforge). No model, no
-internet, no install — a TF-IDF ranking over paragraphs, written in about 100
+internet, no install — a TF-IDF ranking over paragraphs, written in about 200
 readable lines in `start.py`.
 
 ## Start it

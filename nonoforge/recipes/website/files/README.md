@@ -23,7 +23,7 @@ On Windows, `run.bat` does the same thing. On macOS and Linux, `./run.sh`.
 | `web/style.css` | the colours, spacing and type (`--accent` at the top is the whole theme) |
 | `web/app.js` | the photo gallery |
 | `start.py` | the program that serves the page and lists the photos |
-| `serve.py` | the shared mini web engine (about 200 lines, no dependencies) |
+| `serve.py` | the shared mini web engine (about 400 lines, no dependencies) |
 | `photos/` | your pictures, read straight off the disk |
 
 ## Put it online later

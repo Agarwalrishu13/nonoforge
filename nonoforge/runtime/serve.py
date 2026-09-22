@@ -1,4 +1,5 @@
-"""The tiny engine behind this app — about 200 lines, and this is the whole manual.
+"""The tiny engine behind this app — about 400 lines of careful comments included,
+and this is the whole manual.
 
 It uses nothing except Python's own toolbox, so there is nothing to install and
 nothing that can go out of date. Three ideas, and that is all:

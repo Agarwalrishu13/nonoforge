@@ -23,7 +23,7 @@ A character-level n-gram model with backoff, in plain Python:
 - When it does not recognise a context it backs off to two letters, then one,
   then starts a new word.
 
-That is genuinely all of it. `start.py` is about 120 lines and none of it is
+That is genuinely all of it. `start.py` is about 230 lines and none of it is
 magic — which is the point: this is what "a model" means, small enough to hold
 in your head.
 

@@ -43,7 +43,7 @@
     "START-HERE.txt": "this note",
     "run.bat": "double-click to start it on Windows",
     "run.sh": "double-click to start it on macOS or Linux",
-    "start.py": "the search itself - about 100 lines, and commented",
+    "start.py": "the search itself - about 200 lines, and commented",
     "serve.py": "the engine (you never need to open this)",
     "web/index.html": "the page you type your question into",
     "web/style.css": "the colours and spacing",
