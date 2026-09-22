@@ -1,0 +1,11 @@
+Put your text files in this folder.
+
+Any .txt, .md or .rst file works. Plain text is best: open a document, select
+all of it, copy, paste into Notepad (Windows) or TextEdit (Mac), and save it
+here as a .txt file.
+
+Then go back to the page and press refresh - this folder is re-read every time
+you ask a question, so there is nothing to restart.
+
+Files whose names start with an underscore or a dot are ignored, which is why
+this note never shows up in your search results. Delete it whenever you like.

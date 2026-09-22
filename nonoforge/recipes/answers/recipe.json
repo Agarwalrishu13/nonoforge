@@ -1,0 +1,64 @@
+{
+  "id": "answers",
+  "emoji": "📋",
+  "title": "Collect answers from people",
+  "blurb": "A page with your questions on it. Every answer is saved in a spreadsheet you can open in Excel.",
+  "best_for": "Sign-ups, feedback, a survey, orders, a waiting list, a class list.",
+  "keywords": ["form", "forms", "survey", "questionnaire", "collect", "answers", "responses", "sign up", "signup", "register", "registration", "feedback", "order", "orders", "waiting list", "enquiry", "enquiries", "rsvp", "poll", "quiz"],
+  "order": 2,
+  "port": 8764,
+  "runs": true,
+  "files": "files",
+  "asks": [
+    {
+      "key": "name",
+      "type": "text",
+      "label": "What should this be called?",
+      "placeholder": "Trip sign-up",
+      "default": "My form",
+      "required": true,
+      "help": "Only you see this: it is the name of the folder and the browser tab."
+    },
+    {
+      "key": "heading",
+      "type": "text",
+      "label": "The question at the top of the page",
+      "placeholder": "Coming on the trip? Tell me here.",
+      "default": "Please fill this in — it takes a minute."
+    },
+    {
+      "key": "questions",
+      "type": "lines",
+      "label": "What do you want to ask people?",
+      "default": ["Your email or phone number", "How many people are coming?", "Anything you would like me to know?"],
+      "help": "One question per line. You can change these later by editing questions.txt.",
+      "required": true
+    },
+    {
+      "key": "accent",
+      "type": "color",
+      "label": "Pick a colour",
+      "default": "#58a6ff"
+    }
+  ],
+  "text_files": [{ "file": "questions.txt", "key": "questions" }],
+  "changing": [
+    "The questions are lines in questions.txt - open it in Notepad or TextEdit, change the lines, save, and refresh the page.",
+    "The big question at the top of the page is in web/index.html.",
+    "Every answer is saved in data/answers.csv. Open it in Excel, Numbers or Google Sheets whenever you like - it is an ordinary spreadsheet.",
+    "Remember to say yes if Excel asks about importing a CSV file; the answers are separated by commas."
+  ],
+  "map": {
+    "START-HERE.txt": "this note",
+    "run.bat": "double-click to start it on Windows",
+    "run.sh": "double-click to start it on macOS or Linux",
+    "questions.txt": "your questions, one per line - edit this freely",
+    "start.py": "the small program that serves the form",
+    "serve.py": "the engine (you never need to open this)",
+    "web/index.html": "the words on the form page",
+    "web/responses.html": "the page listing every answer",
+    "web/style.css": "the colours and spacing",
+    "data/answers.csv": "every answer, as a spreadsheet",
+    "data/": "everything people have sent you lives in here"
+  }
+}

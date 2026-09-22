@@ -1,0 +1,52 @@
+{
+  "id": "notes",
+  "emoji": "🔎",
+  "title": "Ask my notes a question",
+  "blurb": "Put your text files in a folder, ask a question in plain words, and get back the parts that answer it.",
+  "best_for": "Meeting notes, study notes, a pile of recipes, research you keep in text files.",
+  "keywords": ["notes", "note", "search", "find", "lookup", "look up", "ask", "documents", "docs", "files", "journal", "diary", "study", "revision", "research", "knowledge", "text", "my writing", "clipboard"],
+  "order": 3,
+  "port": 8765,
+  "runs": true,
+  "files": "files",
+  "asks": [
+    {
+      "key": "name",
+      "type": "text",
+      "label": "What is this collection called?",
+      "placeholder": "Study notes",
+      "default": "My notes",
+      "required": true,
+      "help": "Only you see this: it is the name of the folder and the browser tab."
+    },
+    {
+      "key": "accent",
+      "type": "color",
+      "label": "Pick a colour",
+      "default": "#2f6f4f"
+    },
+    {
+      "key": "notes",
+      "type": "files",
+      "label": "Drop in your .txt or .md files (you can add more any time)",
+      "accept": ".txt,.md,.markdown,.csv,.log,.rst,text/plain",
+      "folder": "notes"
+    }
+  ],
+  "changing": [
+    "To add more notes, drop .txt or .md files into the notes folder and refresh the page. It re-reads the folder every time.",
+    "Your notes are never changed or moved. This app only reads them.",
+    "The colour is the first line of web/style.css.",
+    "If a file is a PDF or a Word document, open it, select all the text, copy it, paste it into Notepad or TextEdit, and save it as a .txt file in the notes folder."
+  ],
+  "map": {
+    "START-HERE.txt": "this note",
+    "run.bat": "double-click to start it on Windows",
+    "run.sh": "double-click to start it on macOS or Linux",
+    "start.py": "the search itself - about 100 lines, and commented",
+    "serve.py": "the engine (you never need to open this)",
+    "web/index.html": "the page you type your question into",
+    "web/style.css": "the colours and spacing",
+    "notes/": "your text files - add and remove them freely"
+  }
+}

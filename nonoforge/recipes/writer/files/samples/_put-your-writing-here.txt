@@ -1,0 +1,11 @@
+Put writing of your own in this folder.
+
+Any .txt or .md file works - a story, your emails, a diary, the notes you take.
+The more of your own writing it sees, the more the model sounds like you.
+
+You do not have to use this folder at all: you can also paste text straight
+into the page and press "Learn from this". That gets saved here too, so the
+model keeps what it learnt next time you start the app.
+
+Files whose names start with an underscore or a dot are ignored, which is why
+this note is never part of the training text. Delete it whenever you like.

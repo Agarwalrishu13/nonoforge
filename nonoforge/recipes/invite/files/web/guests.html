@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who is coming — {{NAME}}</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="wrap">
+  <article class="invite small">
+    <p class="kicker">The list</p>
+    <h1>Who is coming</h1>
+    <p class="muted" id="summary">loading…</p>
+
+    <div class="figures" id="figures"></div>
+
+    <div class="links">
+      <a class="btn" href="/api/guests.csv">⬇︎ Spreadsheet</a>
+      <a class="btn ghost" href="/">← Back to the invitation</a>
+    </div>
+  </article>
+
+  <section class="rsvp">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>When</th><th>Who</th><th>Coming</th><th>People</th><th>Note</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="muted small" id="empty" hidden>
+      No replies yet. The invitation page is where people reply.
+    </p>
+  </section>
+</main>
+
+<script src="/guests.js"></script>
+</body>
+</html>

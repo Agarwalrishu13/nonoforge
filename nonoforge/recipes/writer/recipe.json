@@ -1,0 +1,51 @@
+{
+  "id": "writer",
+  "emoji": "✍️",
+  "title": "Teach it my writing",
+  "blurb": "Give it something you wrote. It learns the patterns in your words and writes more in the same style.",
+  "best_for": "Seeing what a trained model actually is — and what a small one cannot do.",
+  "keywords": ["ai", "model", "train", "teach", "learn", "write like me", "my writing", "generate", "text", "brain", "chatbot", "language model", "llm", "style", "poem", "story"],
+  "order": 4,
+  "port": 8766,
+  "runs": true,
+  "files": "files",
+  "asks": [
+    {
+      "key": "name",
+      "type": "text",
+      "label": "What should this be called?",
+      "placeholder": "My writing robot",
+      "default": "My tiny writer",
+      "required": true
+    },
+    {
+      "key": "accent",
+      "type": "color",
+      "label": "Pick a colour",
+      "default": "#a06bd6"
+    },
+    {
+      "key": "samples",
+      "type": "files",
+      "label": "Drop in something you wrote (or paste it in the app afterwards)",
+      "accept": ".txt,.md,.markdown,text/plain",
+      "folder": "samples"
+    }
+  ],
+  "changing": [
+    "Anything you paste into the page is saved as samples/pasted-writing.txt, so the model keeps learning from it next time.",
+    "You can drop .txt files into the samples folder at any time and press Learn again.",
+    "The colour is the first line of web/style.css.",
+    "The size of the model is the ORDER setting in start.py: 3 means it looks at the last three letters to guess the next one. Bigger is not always better with a small amount of text."
+  ],
+  "map": {
+    "START-HERE.txt": "this note",
+    "run.bat": "double-click to start it on Windows",
+    "run.sh": "double-click to start it on macOS or Linux",
+    "start.py": "the tiny model and the training - about 120 lines, commented",
+    "serve.py": "the engine (you never need to open this)",
+    "web/index.html": "the page you paste text into",
+    "web/style.css": "the colours and spacing",
+    "samples/": "the writing it learns from"
+  }
+}

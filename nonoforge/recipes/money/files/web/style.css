@@ -1,0 +1,96 @@
+/* Where my money goes — same warm palette as the rest of the family. */
+
+:root {
+  --accent: {{ACCENT}};
+  --ink: #1a201c;
+  --muted: #6b766e;
+  --paper: #f9fbf9;
+  --card: #ffffff;
+  --line: #e5eae6;
+  --incoming: #2f9e6b;
+  --radius: 14px;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--sans); font-size: 16.5px; line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+code { font-family: var(--mono); font-size: 0.86em; background: #eef2ef; padding: 1px 6px; border-radius: 6px; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+.right { text-align: right; }
+
+.page { max-width: 900px; margin: 0 auto; padding: 44px 20px 80px; }
+.head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.head h1 { font-size: clamp(25px, 4.4vw, 34px); margin: 0 0 6px; letter-spacing: -0.02em; }
+.head p { margin: 0; }
+
+.btn {
+  display: inline-block; padding: 10px 16px; border-radius: 11px; border: 1px solid var(--line);
+  background: var(--card); color: var(--ink); text-decoration: none; font-size: 14.5px;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: transparent; color: #fff; font-weight: 620; }
+.btn.primary:disabled { opacity: 0.6; }
+.btn.ghost { background: transparent; }
+
+.figures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+.figure {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;
+}
+.figure span { display: block; font-size: 13.5px; }
+.figure b { display: block; font-size: clamp(20px, 3.4vw, 27px); margin-top: 4px; letter-spacing: -0.02em; }
+
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 24px rgba(26, 32, 28, 0.04);
+}
+.card h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin: 0 0 14px; }
+
+.add { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.field { display: block; min-width: 120px; }
+.field.grow { flex: 1 1 220px; }
+.field.amount { width: 120px; }
+.field > span { display: block; font-size: 13.5px; margin-bottom: 5px; color: var(--muted); }
+.field input, .field select {
+  width: 100%; padding: 11px 12px; border-radius: 10px; font: inherit;
+  border: 1px solid var(--line); background: #fdfefd; color: var(--ink); outline: none;
+}
+.field input:focus, .field select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(47, 158, 107, 0.12); }
+.add-btn { height: 44px; }
+
+.bars { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: 110px 1fr 96px; gap: 12px; align-items: center; }
+.bar-name { font-size: 14.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track { height: 9px; background: #eef2ef; border-radius: 999px; overflow: hidden; }
+.track span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.bar-total { text-align: right; font-variant-numeric: tabular-nums; font-size: 14.5px; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+th { font-size: 13px; color: var(--muted); font-weight: 600; }
+tbody tr:hover { background: #fbfdfb; }
+td { font-variant-numeric: tabular-nums; }
+td.incoming { color: var(--incoming); }
+.pill { font-size: 12.5px; background: #eef2ef; border-radius: 999px; padding: 2px 9px; color: var(--muted); }
+.x { background: none; border: none; color: #b9c2bb; font-size: 14px; padding: 2px 6px; }
+.x:hover { color: #d05252; }
+
+.months { display: grid; gap: 8px; }
+.month-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.month-row:last-child { border-bottom: none; }
+
+.empty { text-align: center; }
+.empty h3 { margin: 0 0 6px; }
+.foot { margin-top: 26px; text-align: center; }
+
+@media (max-width: 640px) {
+  .figures { grid-template-columns: 1fr; }
+  .bar-row { grid-template-columns: 84px 1fr 82px; }
+  .page { padding: 26px 15px 60px; }
+}

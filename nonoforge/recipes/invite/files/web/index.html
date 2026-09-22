@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}}</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="wrap">
+  <article class="invite">
+    <p class="kicker">You are invited</p>
+    <h1 id="headline">{{HEADLINE}}</h1>
+    <p class="when" id="when">…</p>
+
+    <div class="countdown" id="countdown">
+      <div><b id="cdDays">–</b><span>days</span></div>
+      <div><b id="cdHours">–</b><span>hours</span></div>
+      <div><b id="cdMins">–</b><span>minutes</span></div>
+      <div><b id="cdSecs">–</b><span>seconds</span></div>
+    </div>
+
+    <p class="message" id="message">{{MESSAGE}}</p>
+    <p class="where" id="where">{{WHERE}}</p>
+
+    <div class="links">
+      <a class="btn" href="/api/calendar.ics">📅&nbsp; Add to my calendar</a>
+      <a class="btn ghost" href="/guests.html">Who is coming</a>
+    </div>
+  </article>
+
+  <section class="rsvp" id="rsvpBox">
+    <h2>Are you coming?</h2>
+    <form id="rsvpForm">
+      <label class="field">
+        <span>Your name</span>
+        <input type="text" id="name" placeholder="Your name" required>
+      </label>
+      <div class="field">
+        <span>Can you make it?</span>
+        <div class="choices" id="choices">
+          <label><input type="radio" name="coming" value="Yes" checked><span>Yes, I will be there</span></label>
+          <label><input type="radio" name="coming" value="Maybe"><span>I hope so, but not sure yet</span></label>
+          <label><input type="radio" name="coming" value="No"><span>Sorry, I cannot</span></label>
+        </div>
+      </div>
+      <label class="field">
+        <span>How many of you? (including you)</span>
+        <input type="number" id="howMany" min="1" max="30" value="1">
+      </label>
+      <label class="field">
+        <span>Anything to tell the host? <span class="muted">(optional)</span></span>
+        <textarea id="note" rows="3" placeholder="I am vegetarian, arriving late, bringing a cake…"></textarea>
+      </label>
+      <button class="btn primary wide" type="submit" id="sendBtn">Send my reply</button>
+      <div class="muted small center" id="rsvpNote"></div>
+    </form>
+
+    <div class="thanks" id="thanks" hidden>
+      <div class="tick">✓</div>
+      <h3 id="thanksTitle">Thank you</h3>
+      <p class="muted" id="thanksText"></p>
+      <button class="link" id="changeBtn" type="button">Change my answer</button>
+    </div>
+  </section>
+
+  <footer class="foot muted small">
+    Made with nonoForge · nothing here is sent to the internet, and there is no account to make.
+  </footer>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

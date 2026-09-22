@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All the answers — {{NAME}}</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="sheet wide">
+  <header class="head row">
+    <div>
+      <h1>All the answers</h1>
+      <p class="muted" id="count">loading…</p>
+    </div>
+    <div class="tools">
+      <a class="send as-link" href="/api/responses.csv">⬇︎ Spreadsheet</a>
+      <button class="link" id="refresh" type="button">↻ Refresh</button>
+      <a class="link" href="/">← Back to the form</a>
+    </div>
+  </header>
+
+  <div class="card table-wrap" id="wrap">
+    <p class="muted" id="empty" hidden>Nothing yet. Answers appear here the moment somebody sends one.</p>
+    <table id="table" hidden>
+      <thead><tr id="head"></tr></thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+
+  <p class="muted small">
+    The same answers live in <code>data/answers.csv</code> — an ordinary spreadsheet
+    you can open in Excel, Numbers or Google Sheets.
+  </p>
+</main>
+
+<script src="/responses.js"></script>
+</body>
+</html>

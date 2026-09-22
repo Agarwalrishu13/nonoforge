@@ -1,0 +1,74 @@
+{
+  "id": "website",
+  "emoji": "🪧",
+  "title": "My own website",
+  "blurb": "A one-page site with your name, what you do, a photo gallery and how to reach you.",
+  "best_for": "A personal page, a small business, a shop, a CV you can send as a link.",
+  "keywords": ["website", "site", "webpage", "web page", "homepage", "home page", "page", "portfolio", "business", "shop", "store", "restaurant", "bakery", "cafe", "landing", "blog", "about me", "cv", "resume", "brand"],
+  "order": 1,
+  "port": 8763,
+  "runs": true,
+  "files": "files",
+  "asks": [
+    {
+      "key": "name",
+      "type": "text",
+      "label": "What should it be called?",
+      "placeholder": "Rishu's Bakery",
+      "default": "My website",
+      "required": true,
+      "help": "This becomes the title at the top of the page, and the folder name."
+    },
+    {
+      "key": "tagline",
+      "type": "text",
+      "label": "One line about it",
+      "placeholder": "Fresh bread every morning, baked in Smalltown since 2019.",
+      "default": "Something I made."
+    },
+    {
+      "key": "about",
+      "type": "textarea",
+      "label": "A short paragraph about it",
+      "placeholder": "We are a family bakery. We bake sourdough, cinnamon buns and birthday cakes to order. Come in any weekday morning.",
+      "default": "This page is mine. I can change every word of it, and this paragraph is written in the file called index.html."
+    },
+    {
+      "key": "contact",
+      "type": "text",
+      "label": "How should people reach you?",
+      "placeholder": "hello@example.com  ·  555 0100",
+      "default": ""
+    },
+    {
+      "key": "accent",
+      "type": "color",
+      "label": "Pick a colour",
+      "default": "#f0883e"
+    },
+    {
+      "key": "photos",
+      "type": "files",
+      "label": "Drop in photos (you can add more later)",
+      "accept": "image/*",
+      "folder": "photos"
+    }
+  ],
+  "changing": [
+    "The words on the page are in web/index.html - open it in Notepad or TextEdit, change the text between the tags, save, then refresh the page. Nothing else needs to change.",
+    "The colour is at the top of web/style.css, on the line that starts with --accent.",
+    "Photos can be dropped straight into the photos folder. Refresh the page and they appear.",
+    "To put it on the internet later, everything in the web folder can be uploaded to any web host, as it is."
+  ],
+  "map": {
+    "START-HERE.txt": "this note",
+    "run.bat": "double-click to start it on Windows",
+    "run.sh": "double-click to start it on macOS or Linux",
+    "start.py": "the small program that runs the page",
+    "serve.py": "the engine (you never need to open this)",
+    "web/index.html": "the words on the page",
+    "web/style.css": "the colours, spacing and fonts",
+    "web/app.js": "the photo gallery, and the only moving part",
+    "photos/": "your pictures - add or remove any time"
+  }
+}

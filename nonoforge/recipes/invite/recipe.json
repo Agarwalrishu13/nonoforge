@@ -1,0 +1,78 @@
+{
+  "id": "invite",
+  "emoji": "🎉",
+  "title": "An invitation with a countdown",
+  "blurb": "A pretty page for your party or event, counting down the days, with a form so people can say if they are coming.",
+  "best_for": "Birthdays, weddings, a housewarming, a reunion, a club night, a leaving do.",
+  "keywords": ["invite", "invitation", "party", "event", "birthday", "wedding", "rsvp", "guests", "celebration", "dinner", "meeting", "countdown", "anniversary", "housewarming", "reunion", "gathering"],
+  "order": 6,
+  "port": 8768,
+  "runs": true,
+  "files": "files",
+  "asks": [
+    {
+      "key": "name",
+      "type": "text",
+      "label": "What should this be called?",
+      "placeholder": "Mum's 70th",
+      "default": "My invitation",
+      "required": true
+    },
+    {
+      "key": "headline",
+      "type": "text",
+      "label": "What are you celebrating?",
+      "placeholder": "Mum is turning seventy",
+      "default": "You are invited"
+    },
+    {
+      "key": "when_date",
+      "type": "date",
+      "label": "What day is it?",
+      "default": ""
+    },
+    {
+      "key": "when_time",
+      "type": "time",
+      "label": "What time does it start?",
+      "default": "19:00"
+    },
+    {
+      "key": "where",
+      "type": "text",
+      "label": "Where is it?",
+      "placeholder": "12 Oak Lane, Smalltown — the house with the red door",
+      "default": "Somewhere lovely"
+    },
+    {
+      "key": "message",
+      "type": "textarea",
+      "label": "A message for your guests",
+      "placeholder": "Come for food, cake and far too much talking. Bring nothing but yourself — and maybe a jumper, we will be in the garden.",
+      "default": "Come and celebrate with us. There will be food, drinks and good company."
+    },
+    {
+      "key": "accent",
+      "type": "color",
+      "label": "Pick a colour",
+      "default": "#d1447a"
+    }
+  ],
+  "changing": [
+    "Every word of the invitation is in web/index.html - open it, change the text, save, and refresh the page.",
+    "The date and time are set near the top of start.py, on the lines that say WHEN_DATE and WHEN_TIME.",
+    "Guest replies are saved in data/rsvp.csv, and you can see them on the page called guests.html.",
+    "The colour is the first line of web/style.css."
+  ],
+  "map": {
+    "START-HERE.txt": "this note",
+    "run.bat": "double-click to start it on Windows",
+    "run.sh": "double-click to start it on macOS or Linux",
+    "start.py": "the date, the countdown and the replies",
+    "serve.py": "the engine (you never need to open this)",
+    "web/index.html": "the invitation itself",
+    "web/guests.html": "the page listing who is coming",
+    "web/style.css": "the colours, fonts and spacing",
+    "data/rsvp.csv": "every reply, as a spreadsheet"
+  }
+}

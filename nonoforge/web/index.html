@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nonoForge — make yourself an app, without writing any code</title>
+<meta name="description" content="Pick a card. Answer two questions. Press one button. You get a real, working app on your own computer.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">🧰</div>
+    <div>
+      <div class="brand-name">nonoForge</div>
+      <div class="brand-sub">Make yourself an app. No code, no terminal, nothing to install.</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="btn ghost" id="projectsBtn">📁&nbsp; My projects</button>
+    <button class="btn ghost" id="helpBtn" title="How this works">?</button>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ---------------------------------------------------------------- hero -->
+  <section class="hero">
+    <h1>What would you like to make?</h1>
+    <p class="hero-sub">
+      Say it in your own words and I will pick the right card for you — or choose one yourself below.
+    </p>
+    <div class="ask-row">
+      <input type="text" id="wish" autocomplete="off"
+             placeholder="a page for my bakery, somewhere to collect answers, keep track of my spending…">
+      <button class="btn primary big" id="wishBtn">Make it for me</button>
+    </div>
+    <div class="hero-note" id="heroNote">
+      Everything happens on this computer. Nothing is uploaded, and there is no account to make.
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------------- cards -->
+  <section class="block">
+    <div class="block-head">
+      <h2>Or pick a card</h2>
+      <span class="muted" id="cardsHint">Drag one onto the table below — or just click it.</span>
+    </div>
+    <div class="card-grid" id="cards"></div>
+  </section>
+
+  <!-- --------------------------------------------------------------- forge -->
+  <section class="forge" id="forge" hidden>
+    <div class="block-head">
+      <h2 id="forgeTitle">Your table</h2>
+      <button class="btn ghost small" id="clearBtn">Start over</button>
+    </div>
+
+    <div class="forge-grid">
+      <!-- what you picked -->
+      <div class="panel dropzone" id="dropTable">
+        <div class="drop-empty" id="dropEmpty">
+          <div class="drop-icon">⬇︎</div>
+          <p><strong>Drop a card here</strong></p>
+          <p class="muted">…or drop your own files (photos, notes, a spreadsheet) and I will put them in the right place.</p>
+        </div>
+        <div class="drop-filled" id="dropFilled" hidden>
+          <div class="chosen">
+            <div class="chosen-emoji" id="chosenEmoji">🪧</div>
+            <div>
+              <div class="chosen-title" id="chosenTitle">—</div>
+              <div class="muted" id="chosenBlurb">—</div>
+            </div>
+          </div>
+          <div class="preview" id="preview"></div>
+        </div>
+      </div>
+
+      <!-- the questions -->
+      <div class="panel" id="questionsPanel" hidden>
+        <div class="ask-head">
+          <h3 id="questionsTitle">A few questions</h3>
+          <span class="muted">You can change all of this later. Nothing here is permanent.</span>
+        </div>
+        <form id="questions" autocomplete="off"></form>
+
+        <details class="advanced">
+          <summary>Where it goes, and other extras</summary>
+          <label class="field">
+            <span>Put my new app in this folder</span>
+            <input type="text" id="parentInput" spellcheck="false">
+          </label>
+          <div class="muted small" id="parentHint"></div>
+          <label class="check">
+            <input type="checkbox" id="gitInput">
+            <span>Also turn it into a <em>git repository</em> (for programmers — ignore this if you do not know what it means)</span>
+          </label>
+          <label class="check">
+            <input type="checkbox" id="startInput" checked>
+            <span>Open it in my browser the moment it is ready</span>
+          </label>
+          <label class="check">
+            <input type="checkbox" id="openInput">
+            <span>Also show me the folder it made</span>
+          </label>
+        </details>
+
+        <button class="btn primary huge" id="makeBtn">Make it ✨</button>
+        <div class="muted small center" id="makeNote">Nothing is installed and nothing is sent anywhere.</div>
+      </div>
+    </div>
+
+    <!-- progress -->
+    <div class="panel progress-panel" id="progressPanel" hidden>
+      <h3 id="progressTitle">Making it…</h3>
+      <ol class="steps" id="steps"></ol>
+    </div>
+
+    <!-- finished -->
+    <div class="panel done-panel" id="donePanel" hidden>
+      <div class="done-head">
+        <div class="done-emoji">🎉</div>
+        <div>
+          <h3 id="doneTitle">It is ready.</h3>
+          <div class="muted" id="doneSub">—</div>
+        </div>
+      </div>
+      <div class="done-actions">
+        <button class="btn primary" id="openInBrowser" hidden>🌐&nbsp; Open it in my browser</button>
+        <button class="btn" id="openFolder">📂&nbsp; Show me the folder</button>
+        <button class="btn ghost" id="againBtn">↺&nbsp; Make another one</button>
+      </div>
+      <div class="whats-next" id="whatsNext"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ------------------------------------------------------------------ modal -->
+<div class="backdrop" id="projectsModal" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h2>My projects</h2>
+      <button class="btn ghost small" data-close>✕</button>
+    </div>
+    <div class="modal-body" id="projectsList"></div>
+    <div class="modal-foot">
+      <div class="muted small" id="projectsWhere"></div>
+      <button class="btn" data-close>Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop" id="helpModal" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h2>How this works</h2>
+      <button class="btn ghost small" data-close>✕</button>
+    </div>
+    <div class="modal-body prose">
+      <p><strong>1. Pick a card.</strong> Each card is a small, complete app — not a mock-up, not a
+      starter kit with the interesting parts missing.</p>
+      <p><strong>2. Answer a couple of questions.</strong> Your name, a colour, maybe drop in a few
+      photos. Plain questions only.</p>
+      <p><strong>3. Press one button.</strong> nonoForge writes the whole thing into a folder of its
+      own, and starts it so you can see it working. A note called <code>START-HERE.txt</code> goes
+      in with it, explaining what each file is.</p>
+      <p><strong>The promise:</strong> nothing is installed, nothing is uploaded, there is no account,
+      and it all keeps working with the internet switched off. If you delete the folder, the app is
+      gone too — that is the whole footprint.</p>
+      <p><strong>Want to change it later?</strong> Open the folder and edit the files. They are
+      ordinary HTML, CSS and Python, small enough to read, and the browser hiding behind them is
+      yours.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn primary" data-close>Got it</button>
+    </div>
+  </div>
+</div>
+
+<div class="dropveil" id="dropveil"><div class="dropveil-inner">Drop it here 👇</div></div>
+<div class="toasts" id="toasts"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

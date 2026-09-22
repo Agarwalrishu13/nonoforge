@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}}</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="page">
+  <header class="head">
+    <div>
+      <h1>{{NAME}}</h1>
+      <p class="muted" id="subtitle">loading…</p>
+    </div>
+    <a class="btn ghost" href="/api/export.csv">⬇︎ Spreadsheet</a>
+  </header>
+
+  <section class="figures">
+    <div class="figure">
+      <span class="muted" id="monthLabel">This month</span>
+      <b id="thisMonth">—</b>
+    </div>
+    <div class="figure">
+      <span class="muted">Everything so far</span>
+      <b id="total">—</b>
+    </div>
+    <div class="figure">
+      <span class="muted">Things written down</span>
+      <b id="count">—</b>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Write something down</h2>
+    <form id="addForm" class="add">
+      <label class="field grow">
+        <span>What was it for?</span>
+        <input type="text" id="what" placeholder="Bread and milk" required>
+      </label>
+      <label class="field amount">
+        <span>How much?</span>
+        <input type="text" id="amount" inputmode="decimal" placeholder="12.50" required>
+      </label>
+      <label class="field">
+        <span>Group</span>
+        <select id="category"></select>
+      </label>
+      <label class="field">
+        <span>When</span>
+        <input type="date" id="when">
+      </label>
+      <button class="btn primary add-btn" type="submit" id="addBtn">Add it</button>
+    </form>
+    <div class="muted small" id="addNote">
+      Use the minus sign for money coming in, like <code>-50</code> for a refund.
+    </div>
+  </section>
+
+  <section class="card" id="groupsCard" hidden>
+    <h2>Where it goes</h2>
+    <div class="bars" id="bars"></div>
+  </section>
+
+  <section class="card" id="recentCard" hidden>
+    <h2>Recently</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>When</th><th>What</th><th>Group</th><th class="right">Amount</th><th></th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="monthsCard" hidden>
+    <h2>Month by month</h2>
+    <div class="months" id="months"></div>
+  </section>
+
+  <section class="empty card" id="emptyCard" hidden>
+    <h3>Nothing written down yet</h3>
+    <p class="muted">
+      Add the first thing above. It only takes a second, and the totals look after themselves.
+    </p>
+  </section>
+
+  <footer class="foot muted small">
+    Everything is saved in <code>data/expenses.csv</code> on this computer — an ordinary
+    spreadsheet you can open in Excel. Nothing is sent anywhere, and nothing is connected to a bank.
+  </footer>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

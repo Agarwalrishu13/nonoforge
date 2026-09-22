@@ -1,0 +1,90 @@
+/* Ask my notes — one page, one accent colour, no build step. */
+
+:root {
+  --accent: {{ACCENT}};
+  --ink: #182019;
+  --muted: #67736a;
+  --paper: #fbfcf9;
+  --card: #ffffff;
+  --line: #e4e9e1;
+  --radius: 14px;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", sans-serif;
+  --mono: ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--sans); font-size: 16.5px; line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+}
+code { font-family: var(--mono); font-size: 0.87em; background: #eef2ec; padding: 1px 6px; border-radius: 6px; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+a { color: var(--accent); }
+
+.page { max-width: 780px; margin: 0 auto; padding: 46px 20px 80px; }
+.head h1 { font-size: clamp(26px, 5vw, 38px); margin: 0 0 6px; letter-spacing: -0.02em; }
+.head p { margin: 0 0 26px; }
+
+.ask { display: flex; gap: 10px; }
+.ask input {
+  flex: 1; padding: 15px 17px; border-radius: var(--radius); font: inherit;
+  border: 1px solid var(--line); background: var(--card); outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.ask input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(47, 111, 79, 0.12); }
+.ask button {
+  padding: 15px 24px; border: none; border-radius: var(--radius); font: inherit;
+  background: var(--accent); color: #fff; font-weight: 620;
+}
+.ask button:disabled { opacity: 0.6; }
+
+.examples { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
+.chip {
+  border: 1px solid var(--line); background: var(--card); color: var(--muted);
+  border-radius: 999px; padding: 4px 11px; font-size: 13.5px;
+}
+.chip:hover { border-color: var(--accent); color: var(--ink); }
+
+.result-head { margin: 26px 0 10px; }
+.hit {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 8px 22px rgba(24, 32, 25, 0.04);
+}
+.hit-top { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.file {
+  font-family: var(--mono); font-size: 12.5px; background: #eef2ec; border-radius: 999px;
+  padding: 3px 10px; color: var(--muted);
+}
+.meter { flex: 1; height: 5px; background: #eef2ec; border-radius: 999px; overflow: hidden; max-width: 160px; }
+.meter span { display: block; height: 100%; background: var(--accent); }
+.read { font-size: 13px; text-decoration: none; white-space: nowrap; }
+.snippet { margin: 0; white-space: pre-wrap; }
+.snippet mark { background: #fff1b8; color: inherit; padding: 0 2px; border-radius: 3px; }
+.why { margin-top: 9px; }
+
+.empty {
+  margin-top: 34px; padding: 22px; border: 1px dashed var(--line); border-radius: var(--radius);
+  background: var(--card); text-align: center;
+}
+.empty h2 { font-size: 19px; margin: 0 0 8px; }
+.empty p { margin: 0 auto; max-width: 48ch; }
+
+.how { margin-top: 38px; border-top: 1px solid var(--line); padding-top: 16px; }
+.how summary { cursor: pointer; color: var(--muted); font-size: 14.5px; }
+.prose p { color: var(--muted); margin: 12px 0; }
+.prose strong { color: var(--ink); }
+
+.foot { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 16px; }
+.foot summary { cursor: pointer; }
+.filelist { list-style: none; margin: 12px 0 0; padding: 0; }
+.filelist li {
+  display: flex; justify-content: space-between; gap: 14px;
+  padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14.5px;
+}
+
+@media (max-width: 560px) {
+  .page { padding: 28px 15px 60px; }
+  .ask { flex-direction: column; }
+}

@@ -1,0 +1,111 @@
+/* An invitation: one card, one colour, and a countdown. */
+
+:root {
+  --accent: {{ACCENT}};
+  --ink: #241c22;
+  --muted: #7b6f77;
+  --paper: #fdf9fb;
+  --card: #ffffff;
+  --line: #f0e4ea;
+  --radius: 18px;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink); font-family: var(--sans); font-size: 16.5px; line-height: 1.65;
+  background:
+    radial-gradient(900px 500px at 50% -10%, #fff2f7 0%, var(--paper) 60%) fixed;
+  -webkit-font-smoothing: antialiased;
+}
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+.center { text-align: center; }
+a { color: var(--accent); }
+
+.wrap { max-width: 660px; margin: 0 auto; padding: 46px 20px 70px; }
+
+.invite {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 44px 34px; text-align: center; box-shadow: 0 22px 50px rgba(60, 30, 45, 0.07);
+}
+.invite.small { padding: 32px 26px; }
+.kicker { text-transform: uppercase; letter-spacing: 0.24em; font-size: 12px; color: var(--accent); margin: 0 0 14px; }
+.invite h1 { font-family: var(--serif); font-size: clamp(28px, 6vw, 44px); line-height: 1.12; margin: 0 0 12px; letter-spacing: -0.01em; }
+.when { font-size: clamp(16px, 2.6vw, 19px); color: var(--muted); margin: 0 0 24px; }
+
+.countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 0 auto 26px; max-width: 420px; }
+.countdown div {
+  background: #fff7fa; border: 1px solid var(--line); border-radius: 14px; padding: 12px 4px;
+}
+.countdown b { display: block; font-size: clamp(19px, 4vw, 25px); font-variant-numeric: tabular-nums; }
+.countdown span { font-size: 12px; color: var(--muted); }
+.countdown .passed { grid-column: 1 / -1; background: #fff7fa; padding: 16px; font-size: 17px; }
+
+.message { font-family: var(--serif); font-size: 18.5px; white-space: pre-wrap; margin: 0 0 20px; }
+.where { font-size: 16.5px; font-weight: 550; margin: 0 0 26px; white-space: pre-wrap; }
+
+.links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 12px 18px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--card); color: var(--ink); text-decoration: none; font-size: 14.5px;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: transparent; color: #fff; font-weight: 620; }
+.btn.ghost { background: transparent; }
+.btn.wide { width: 100%; padding: 15px; border-radius: 12px; font: inherit; font-weight: 620; cursor: pointer; }
+.btn:disabled { opacity: 0.6; }
+
+.rsvp {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 28px 26px; margin-top: 18px; box-shadow: 0 14px 36px rgba(60, 30, 45, 0.05);
+}
+.rsvp h2 { font-size: 19px; margin: 0 0 18px; text-align: center; }
+.field { display: block; margin-bottom: 16px; }
+.field > span { display: block; font-size: 14.5px; margin-bottom: 6px; font-weight: 550; }
+.field input, .field textarea {
+  width: 100%; padding: 12px 14px; border-radius: 11px; font: inherit;
+  border: 1px solid var(--line); background: #fffdfe; color: var(--ink); outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus, .field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(209, 68, 122, 0.12); }
+.field textarea { resize: vertical; min-height: 76px; }
+
+.choices { display: grid; gap: 8px; }
+.choices label {
+  display: flex; align-items: center; gap: 10px; padding: 11px 13px; border-radius: 11px;
+  border: 1px solid var(--line); cursor: pointer; font-size: 15px;
+}
+.choices label:hover { border-color: var(--accent); }
+.choices input { accent-color: var(--accent); width: 17px; height: 17px; }
+.choices input:checked + span { font-weight: 600; }
+
+.thanks { text-align: center; }
+.thanks .tick {
+  width: 50px; height: 50px; margin: 0 auto 12px; border-radius: 50%;
+  background: #f2fbf5; color: #2f9e6b; display: grid; place-items: center; font-size: 26px;
+}
+.thanks h3 { margin: 0 0 6px; }
+.link { background: none; border: none; color: var(--accent); font: inherit; text-decoration: underline; }
+
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 20px 0 24px; }
+.figure { background: #fff7fa; border: 1px solid var(--line); border-radius: 14px; padding: 14px 10px; }
+.figure b { display: block; font-size: 22px; }
+.figure span { font-size: 12.5px; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+tr.yes td:nth-child(3) { color: #2f9e6b; font-weight: 600; }
+tr.no td:nth-child(3) { color: #c0392b; }
+tr.maybe td:nth-child(3) { color: #b8860b; }
+
+.foot { margin-top: 26px; text-align: center; }
+
+@media (max-width: 560px) {
+  .wrap { padding: 26px 14px 56px; }
+  .invite { padding: 30px 20px; }
+  .countdown { grid-template-columns: repeat(2, 1fr); }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}}</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="page">
+  <header class="head">
+    <h1>{{NAME}}</h1>
+    <p class="muted" id="stats">looking at your notes…</p>
+  </header>
+
+  <form class="ask" id="askForm">
+    <input type="text" id="question" placeholder="Ask about anything in your notes…" autocomplete="off" autofocus>
+    <button type="submit" id="askBtn">Ask</button>
+  </form>
+
+  <div class="examples" id="examples">
+    <span class="muted small">Try:</span>
+  </div>
+
+  <section id="results"></section>
+
+  <section class="empty" id="noNotes" hidden>
+    <h2>There are no notes in the folder yet</h2>
+    <p class="muted">
+      Put <code>.txt</code> or <code>.md</code> files into the <code>notes</code> folder next to this app,
+      then press refresh here. Word documents and PDFs can be copied and pasted into Notepad or
+      TextEdit and saved as <code>.txt</code>.
+    </p>
+  </section>
+
+  <details class="how">
+    <summary>How this works (and what it is not)</summary>
+    <div class="prose">
+      <p>It does <strong>not</strong> understand your question. It breaks your notes into paragraphs,
+      looks for the paragraphs that share the most words with what you typed, and sorts them so the
+      best match is first.</p>
+      <p>Words that are rare in your notes count for more than words that are everywhere. A phrase you
+      typed exactly gets a bonus. That is the whole trick — it is called TF-IDF and it is decades old.</p>
+      <p>Because of that: ask with the words you would expect to find in the answer. If you ask
+      "what about the thing we discussed?" it can only help if your notes use those words too.</p>
+      <p>Nothing leaves this computer, and your notes are never modified — they are only read.</p>
+    </div>
+  </details>
+
+  <footer class="foot">
+    <details>
+      <summary class="muted small" id="fileSummary">Your notes</summary>
+      <ul class="filelist" id="fileList"></ul>
+    </details>
+  </footer>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

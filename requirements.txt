@@ -1,0 +1,7 @@
+# nonoForge needs nothing at all.
+#
+# The whole app — the page, the server and every project it makes — runs on the
+# Python standard library. This file exists so that "is there anything to
+# install?" has a visible answer: no.
+#
+# Python 3.9 or newer. That is the entire requirement.

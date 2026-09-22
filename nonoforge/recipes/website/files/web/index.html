@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}}</title>
+<meta name="description" content="{{TAGLINE}}">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <span class="logo">{{NAME}}</span>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#photos">Photos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>{{NAME}}</h1>
+    <p class="tagline">{{TAGLINE}}</p>
+    <a class="call" href="#contact">Get in touch</a>
+  </section>
+
+  <section id="about" class="section">
+    <h2>About</h2>
+    <p class="about">{{ABOUT}}</p>
+  </section>
+
+  <section id="photos" class="section" hidden>
+    <h2>Photos</h2>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section id="contact" class="section">
+    <h2>Contact</h2>
+    <p class="contact">{{CONTACT}}</p>
+    <p class="muted">This page lives on your own computer. Change the text in the file called
+      <code>web/index.html</code> whenever you like.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Made with nonoForge · {{DATE}}</span>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>

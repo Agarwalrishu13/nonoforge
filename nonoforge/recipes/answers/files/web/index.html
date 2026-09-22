@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}}</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="sheet">
+  <header class="head">
+    <h1>{{HEADING}}</h1>
+    <p class="muted">Your answers are saved on this computer. Nothing is sent anywhere.</p>
+  </header>
+
+  <form id="form" class="card" autocomplete="on">
+    <label class="field">
+      <span>Your name</span>
+      <input type="text" name="name" placeholder="Your name" autocomplete="name">
+    </label>
+    <div id="questions"></div>
+    <button class="send" type="submit" id="send">Send my answers</button>
+    <div class="muted small" id="note"></div>
+  </form>
+
+  <div class="card thanks" id="thanks" hidden>
+    <div class="tick">✓</div>
+    <h2>Thank you — that is saved.</h2>
+    <p class="muted">You can close this page now.</p>
+    <button class="link" id="again" type="button">Send another set of answers</button>
+  </div>
+
+  <footer class="foot">
+    <a href="/responses.html">See all the answers</a>
+  </footer>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

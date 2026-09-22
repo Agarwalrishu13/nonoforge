@@ -1,0 +1,60 @@
+{
+  "id": "money",
+  "emoji": "💰",
+  "title": "Where my money goes",
+  "blurb": "Write down what you spend as it happens. It adds it up by month and by category for you.",
+  "best_for": "Keeping an eye on spending without a spreadsheet, an app or an account.",
+  "keywords": ["money", "spend", "spending", "expenses", "expense", "budget", "costs", "cost", "track", "tracker", "shopping", "receipts", "finance", "finances", "cash", "purchases", "bills"],
+  "order": 5,
+  "port": 8767,
+  "runs": true,
+  "files": "files",
+  "asks": [
+    {
+      "key": "name",
+      "type": "text",
+      "label": "What should this be called?",
+      "placeholder": "My spending",
+      "default": "Where my money goes",
+      "required": true
+    },
+    {
+      "key": "currency",
+      "type": "choice",
+      "label": "Which money?",
+      "options": ["£", "$", "€", "₹", "¥", "kr", "R$", "CHF"],
+      "default": "£"
+    },
+    {
+      "key": "categories",
+      "type": "lines",
+      "label": "What are the groups you want to sort things into?",
+      "default": ["Food", "Home", "Travel", "Bills", "Fun", "Other"],
+      "help": "One per line. These become the buttons you press when you add something."
+    },
+    {
+      "key": "accent",
+      "type": "color",
+      "label": "Pick a colour",
+      "default": "#2f9e6b"
+    }
+  ],
+  "text_files": [{ "file": "categories.txt", "key": "categories" }],
+  "changing": [
+    "The groups are the lines in categories.txt - edit it and refresh the page.",
+    "Everything you write down is in data/expenses.csv, an ordinary spreadsheet. You can fix a typo there by hand if you prefer.",
+    "The currency symbol is on the line that says CURRENCY near the top of start.py - change it there and restart the app.",
+    "Nothing is connected to a bank. It only knows what you type into it."
+  ],
+  "map": {
+    "START-HERE.txt": "this note",
+    "run.bat": "double-click to start it on Windows",
+    "run.sh": "double-click to start it on macOS or Linux",
+    "categories.txt": "the groups you sort spending into - edit freely",
+    "start.py": "adds up your spending",
+    "serve.py": "the engine (you never need to open this)",
+    "web/index.html": "the page",
+    "web/style.css": "the colours and spacing",
+    "data/expenses.csv": "everything you have written down"
+  }
+}

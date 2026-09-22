@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}}</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<main class="page">
+  <header class="head">
+    <h1>{{NAME}}</h1>
+    <p class="muted">
+      A real model, trained on this computer, in about a second. Give it something you wrote
+      and watch what it does with it.
+    </p>
+  </header>
+
+  <section class="grid">
+    <!-- ------------------------------------------------------- teach it -->
+    <div class="card" id="teachCard">
+      <h2><span class="num">1</span> Teach it</h2>
+      <p class="muted small">
+        Paste something you wrote — an email, a story, a diary entry, the words you use in your
+        notes. The more of your own writing it sees, the more it sounds like you.
+      </p>
+      <textarea id="sample" rows="10" placeholder="Paste your writing here…"></textarea>
+      <div class="row">
+        <button class="go" id="learnBtn">Learn from this</button>
+        <button class="link" id="forgetBtn" type="button">Forget what I pasted</button>
+      </div>
+      <div class="muted small" id="learnNote"></div>
+
+      <div class="learned" id="learned" hidden>
+        <div class="figures">
+          <div><b id="figChars">0</b><span class="muted">letters learnt</span></div>
+          <div><b id="figWords">0</b><span class="muted">words</span></div>
+          <div><b id="figPatterns">0</b><span class="muted">patterns found</span></div>
+        </div>
+        <h3>What it noticed</h3>
+        <p class="muted small">
+          After seeing your writing, these three-letter combinations are the ones it is most sure
+          about. This table <em>is</em> the model — there is nothing else inside it.
+        </p>
+        <table class="pairs" id="pairs"></table>
+      </div>
+    </div>
+
+    <!-- ------------------------------------------------------ write it -->
+    <div class="card">
+      <h2><span class="num">2</span> Watch it write</h2>
+      <p class="muted small">
+        Give it a few words to start from, or leave it empty and it will start somewhere in the
+        middle of your writing.
+      </p>
+      <label class="field">
+        <span>Start with (optional)</span>
+        <input type="text" id="prompt" placeholder="The first few words…">
+      </label>
+      <div class="two">
+        <label class="field">
+          <span>How much</span>
+          <select id="howMuch">
+            <option>a sentence</option>
+            <option selected>a paragraph</option>
+            <option>a page</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Creativity</span>
+          <input type="range" id="creativity" min="0.2" max="1.8" step="0.1" value="0.9">
+          <span class="muted small" id="creativityNote">safe and repetitive ←→ wild</span>
+        </label>
+      </div>
+      <button class="go wide" id="writeBtn">Write something</button>
+      <div class="output" id="output" hidden>
+        <pre id="written"></pre>
+        <div class="row">
+          <span class="muted small" id="writeNote"></span>
+          <button class="link" id="copyBtn" type="button">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <details class="how">
+    <summary>What am I actually looking at?</summary>
+    <div class="prose">
+      <p>This is a <strong>trained model</strong>. Not a shortcut, not a fake: training means
+      adjusting numbers so that the model gets better at guessing what comes next, and that is
+      exactly what happens when you press <em>Learn</em>. It counts which letters follow which
+      other letters in your writing, and how often.</p>
+      <p>When it writes, it looks at the last three letters it produced, finds what usually came
+      after those letters <em>in your text</em>, and picks one — usually the most common, sometimes
+      a rarer one, depending on the creativity dial.</p>
+      <p>So it will not be clever. It has no idea what words mean. But it is the same trick the big
+      models use, with far more context and arithmetic — and you can read every line of this one in
+      <code>start.py</code>.</p>
+      <p>Nothing is uploaded. Your text stays in the <code>samples</code> folder next to this app,
+      and "Forget what I pasted" deletes the pasted part.</p>
+    </div>
+  </details>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

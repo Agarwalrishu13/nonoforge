@@ -1,0 +1,6 @@
+Put your photos in this folder.
+
+Any .jpg, .png, .gif or .webp file works. Then open the page and press
+refresh in the browser - your pictures appear in the Photos section.
+
+You can delete this note once you have added some.
