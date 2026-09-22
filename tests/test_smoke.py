@@ -12,7 +12,6 @@ they double-click run.bat.
 
 import json
 import os
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -35,7 +34,6 @@ from nonoforge.server import create_app  # noqa: E402
 
 PROJECTS = os.path.join(_TMP, "projects")
 os.makedirs(PROJECTS, exist_ok=True)
-READY = "nonoforge-ready: "
 
 
 # ==========================================================================
@@ -117,6 +115,7 @@ class BuiltProject:
         self.folder = None
         self.process = None
         self.url = ""
+        self.output: list = []
 
     def build(self):
         self.folder = forge.plan(self.recipe, self.answers, PROJECTS)["folder"]
@@ -125,29 +124,51 @@ class BuiltProject:
         return manifest
 
     def start(self):
-        """Run the project's own start.py, exactly as run.bat would."""
+        """Run the project's own start.py, exactly as run.bat would.
+
+        The port is chosen here and the address is polled until it answers —
+        the same handshake nonoForge itself uses, and one that does not depend
+        on reading a line of output (which behaves differently on macOS).
+        """
+        port = free_port(8820)
+        self.url = "http://127.0.0.1:%d" % port
         self.process = subprocess.Popen(
-            [sys.executable, "start.py", "--no-browser", "--port", "0"],
+            [sys.executable, "start.py", "--no-browser", "--port", str(port)],
             cwd=self.folder,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
             bufsize=1,
         )
-        ready = threading.Event()
-
-        def watch():
-            for line in self.process.stdout:
-                if line.startswith(READY):
-                    self.url = line[len(READY):].strip()
-                    ready.set()
-            ready.set()
-
-        threading.Thread(target=watch, daemon=True).start()
-        if not ready.wait(timeout=25) or not self.url:
+        threading.Thread(target=self._drain, daemon=True).start()
+        if not self._answering():
             self.stop()
-            raise AssertionError("the generated project never said it was ready")
+            raise AssertionError("the generated project never started answering")
         return self.url
+
+    def _drain(self):
+        """Keep reading so the child never blocks on a full pipe."""
+        try:
+            for line in self.process.stdout:
+                self.output.append(line.rstrip())
+                del self.output[:-40]
+        except Exception:
+            pass
+
+    def _answering(self, timeout: float = 25.0) -> bool:
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            if self.process.poll() is not None:
+                return False
+            try:
+                with urllib.request.urlopen(self.url + "/", timeout=2) as response:
+                    response.read(1)
+                    return True
+            except urllib.error.HTTPError:
+                return True
+            except Exception:
+                time.sleep(0.25)
+        return False
 
     def stop(self):
         if self.process and self.process.poll() is None:

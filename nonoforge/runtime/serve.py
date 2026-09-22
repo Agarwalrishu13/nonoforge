@@ -231,8 +231,11 @@ class App:
         return Bytes(target.read_bytes(), mimetypes.guess_type(str(target))[0] or "application/octet-stream")
 
     # -- switching it on ---------------------------------------------------
-    def serve(self, port: int = 0, host: str = "127.0.0.1", open_browser: bool = True) -> str:
-        port = free_port(port or self.default_port, host)
+    def serve(self, port: int | None = None, host: str = "127.0.0.1", open_browser: bool = True) -> str:
+        # No port asked for: use this app's usual one. A port of 0 means "any
+        # free port, you pick" - that is what nonoForge asks for, so two
+        # projects on one machine never fight over a number.
+        port = free_port(self.default_port if port is None else port, host)
         httpd = _Server((host, port), _Handler)
         httpd.app = self
         url = "http://%s:%d" % (host, port)

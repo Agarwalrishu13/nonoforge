@@ -20,14 +20,18 @@ import subprocess
 import sys
 import threading
 import time
+import urllib.error
+import urllib.request
 import webbrowser
 from pathlib import Path
 
 from . import APP_NAME, __version__, forge, recipes, store
-from .httpbase import App, Bytes, Error, Json, Stream, free_port
+from .httpbase import App, Error, Json, Stream, free_port
 
 WEB_DIR = Path(__file__).resolve().parent / "web"
 READY_PREFIX = "nonoforge-ready: "
+# Where a started project listens, if it cannot use this one it takes the next.
+FIRST_PORT = 8770
 
 
 # --------------------------------------------------------------------------
@@ -41,10 +45,13 @@ class Running:
         self.folder = folder
         self.url = ""
         self.log: list = []
-        self.ready = threading.Event()
 
     def alive(self) -> bool:
         return self.process.poll() is None
+
+    def tail(self, lines: int = 3) -> str:
+        """The last few things it said, for when something went wrong."""
+        return " / ".join(self.log[-lines:]) or "it stopped straight away"
 
 
 _RUNNING: dict = {}
@@ -52,24 +59,43 @@ _LOCK = threading.Lock()
 
 
 def _watch(project: Running) -> None:
-    """Read the child's output forever, watching for the line that says it is up."""
+    """Read the child's output so it never blocks on a full pipe."""
     try:
         for line in project.process.stdout:  # type: ignore[union-attr]
             text = line.rstrip()
             if text.startswith(READY_PREFIX):
                 project.url = text[len(READY_PREFIX):].strip()
-                project.ready.set()
             else:
                 project.log.append(text)
                 del project.log[:-60]  # keep the last few lines, for error messages
     except Exception:
         pass
-    finally:
-        project.ready.set()  # never leave a waiter hanging
+
+
+def _wait_until_answering(url: str, project: Running, timeout: float = 25.0) -> bool:
+    """Knock on the door until somebody answers.
+
+    Waiting for a line of output works on most systems but not all of them, and
+    a line on a pipe is a weaker promise than a page that actually loads. So the
+    port is chosen by us and then the address is polled until it answers.
+    """
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        if project.process.poll() is not None:
+            return False  # it gave up before it was ready
+        try:
+            with urllib.request.urlopen(url + "/", timeout=2) as response:
+                response.read(1)
+                return True
+        except urllib.error.HTTPError:
+            return True  # it answered, even if it did not like being asked
+        except Exception:
+            time.sleep(0.25)
+    return False
 
 
 def start_project(folder: str, open_page: bool = True) -> dict:
-    """Start a project made by nonoForge and wait until it is listening."""
+    """Start a project made by nonoForge and wait until it is answering."""
     folder_path = Path(folder).expanduser()
     if not folder_path.is_dir():
         return {"error": "That project folder is not there any more."}
@@ -87,13 +113,16 @@ def start_project(folder: str, open_page: bool = True) -> dict:
                 _open_url(existing.url)
             return {"ok": True, "url": existing.url, "already_running": True}
 
+        # Choose the door number here rather than leaving it to the child, so
+        # there is never a disagreement about which address to open.
+        port = free_port(FIRST_PORT)
         flags = 0
         if os.name == "nt":
             # No extra black window: it is stopped from this page instead.
             flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
         try:
             process = subprocess.Popen(
-                [sys.executable, str(entry), "--no-browser"],
+                [sys.executable, str(entry), "--no-browser", "--port", str(port)],
                 cwd=str(folder_path),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -108,16 +137,17 @@ def start_project(folder: str, open_page: bool = True) -> dict:
         _RUNNING[str(folder_path)] = project
         threading.Thread(target=_watch, args=(project,), daemon=True).start()
 
-    got_ready = project.ready.wait(timeout=20)
-    if not got_ready or not project.url:
-        tail = " / ".join(project.log[-3:]) or "it stopped straight away"
+    url = "http://127.0.0.1:%d" % port
+    if not _wait_until_answering(url, project):
+        tail = project.tail()
         stop_project(str(folder_path))
         return {"error": "It was made, but it did not manage to start. (%s)" % tail}
 
+    project.url = url
     store.note_started(str(folder_path))
     if open_page:
-        _open_url(project.url)
-    return {"ok": True, "url": project.url, "already_running": False}
+        _open_url(url)
+    return {"ok": True, "url": url, "already_running": False}
 
 
 def stop_project(folder: str) -> dict:
