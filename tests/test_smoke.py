@@ -127,8 +127,7 @@ class BuiltProject:
         """Run the project's own start.py, exactly as run.bat would.
 
         The port is chosen here and the address is polled until it answers —
-        the same handshake nonoForge itself uses, and one that does not depend
-        on reading a line of output (which behaves differently on macOS).
+        the same handshake nonoForge itself uses.
         """
         port = free_port(8820)
         self.url = "http://127.0.0.1:%d" % port
@@ -143,7 +142,14 @@ class BuiltProject:
         threading.Thread(target=self._drain, daemon=True).start()
         if not self._answering():
             self.stop()
-            raise AssertionError("the generated project never started answering")
+            # Say exactly what the child did, rather than only that it failed:
+            # this test is the only thing standing between a broken recipe and
+            # somebody's laptop, so its failure has to be readable.
+            raise AssertionError(
+                "the generated project never started answering on %s\n"
+                "alive: %s\n--- what it said ---\n%s"
+                % (self.url, self.process.poll() is None, "\n".join(self.output) or "(nothing)")
+            )
         return self.url
 
     def _drain(self):
