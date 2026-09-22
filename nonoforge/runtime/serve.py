@@ -394,6 +394,14 @@ def _open(url: str) -> None:
 
 def run(app: App, description: str = "") -> None:
     """The last four lines of every start.py in every project made by nonoForge."""
+    # Somebody may well name their project with an emoji in it; a Windows
+    # console on a legacy code page must not crash over that.
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
     parser = argparse.ArgumentParser(description=description or app.name)
     parser.add_argument("--port", type=int, default=app.default_port, help="which door number to use")
     parser.add_argument("--no-browser", action="store_true", help="do not open a browser window")

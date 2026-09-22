@@ -522,7 +522,9 @@ def doctor_text() -> str:
         "  The cards you can pick from:",
     ]
     for recipe in recipes.load_all():
-        lines.append("    %s  %-28s %s" % (recipe["emoji"], recipe["title"], recipe["blurb"][:60]))
+        # Pad the title, not the emoji: an emoji is one character but two
+        # columns wide, so padding it makes a ragged list.
+        lines.append("    %s  %s" % (recipe["emoji"], "%-30s %s" % (recipe["title"], recipe["blurb"][:58])))
     lines.append("")
     made = store.projects()
     lines.append("  Projects you have made: %d" % len(made))

@@ -16,6 +16,14 @@ from . import APP_NAME, __version__
 
 
 def main(argv: list | None = None) -> int:
+    # A Windows console on a legacy code page cannot print the cards' emoji, and
+    # a crash while printing the doctor summary would be a silly way to fail.
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
     parser = argparse.ArgumentParser(
         prog="nonoforge",
         description="%s — %s" % (APP_NAME, "pick what you want to make, press one button, it exists."),
