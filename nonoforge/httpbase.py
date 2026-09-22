@@ -15,6 +15,7 @@ import mimetypes
 import os
 import re
 import socket
+import socketserver
 import sys
 import threading
 import time
@@ -321,6 +322,19 @@ class _Server(ThreadingHTTPServer):
     def __init__(self, address, app):
         self.app = app
         super().__init__(address, _Handler)
+
+    def server_bind(self):
+        """Bind without the reverse-DNS lookup Python does by default.
+
+        ``HTTPServer.server_bind`` calls ``socket.getfqdn(host)``, a name lookup
+        for the address just bound. On a machine with a slow or unreachable DNS
+        resolver that can block startup for tens of seconds. Nothing here uses
+        ``server_name``, so skipping it is a straight win.
+        """
+        socketserver.TCPServer.server_bind(self)
+        host, port = self.server_address[:2]
+        self.server_name = host
+        self.server_port = port
 
 
 class App:

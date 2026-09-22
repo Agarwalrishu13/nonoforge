@@ -12,6 +12,8 @@ they double-click run.bat.
 
 import json
 import os
+import shutil
+import socket
 import subprocess
 import sys
 import tempfile
@@ -532,6 +534,91 @@ class ServerCase(unittest.TestCase):
                 if line.startswith("data:") and line.strip() != "data: [DONE]":
                     events.append(json.loads(line[5:]))
         return events
+
+
+class TestStartingIsQuick(unittest.TestCase):
+    """Python's HTTPServer does a reverse-DNS lookup the moment it binds a port.
+
+    ``socket.getfqdn(host)`` on the address you just bound is a name lookup: free
+    on a healthy machine, and tens of seconds of silence on a machine whose DNS
+    resolver is slow — which is how every generated project failed on macOS CI.
+    Both engines must start with that lookup rigged to explode.
+    """
+
+    def test_a_generated_project_starts_without_a_reverse_dns_lookup(self):
+        work = tempfile.mkdtemp(prefix="nonoforge-nodns-")
+        manifest = forge.build(recipes.get("answers"), {"name": "No DNS"}, work)
+        folder = manifest["folder"]
+        port = free_port(8860)
+
+        script = Path(work) / "explode.py"
+        script.write_text(
+            '"""Start the project with socket.getfqdn rigged to explode."""\n'
+            "import runpy, socket, sys\n\n"
+            "def boom(*args, **kwargs):\n"
+            "    raise RuntimeError('getfqdn was called during startup')\n\n"
+            "socket.getfqdn = boom\n"
+            'sys.argv = ["start.py", "--no-browser", "--port", "%d"]\n'
+            'runpy.run_path("start.py", run_name="__main__")\n' % port,
+            encoding="utf-8",
+        )
+
+        process = subprocess.Popen(
+            [sys.executable, str(script)], cwd=folder,
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1,
+        )
+        said: list = []
+        threading.Thread(target=lambda: [said.append(line) for line in process.stdout], daemon=True).start()
+        try:
+            url = "http://127.0.0.1:%d/api/questions" % port
+            answered = False
+            deadline = time.time() + 25
+            while time.time() < deadline and process.poll() is None:
+                try:
+                    with urllib.request.urlopen(url, timeout=2) as response:
+                        json.loads(response.read().decode("utf-8"))
+                        answered = True
+                        break
+                except Exception:
+                    time.sleep(0.25)
+            self.assertTrue(answered, "the project did not start without a DNS lookup:\n" + "".join(said[-12:]))
+        finally:
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+            shutil.rmtree(work, ignore_errors=True)
+
+    def test_nonoForge_itself_starts_without_a_reverse_dns_lookup(self):
+        original = socket.getfqdn
+        port = free_port(8880)
+        app = create_app()
+
+        def boom(*args, **kwargs):
+            raise RuntimeError("getfqdn was called during startup")
+
+        socket.getfqdn = boom
+        try:
+            threading.Thread(
+                target=app.serve,
+                kwargs={"host": "127.0.0.1", "port": port, "open_browser": False, "quiet": True},
+                daemon=True,
+            ).start()
+            health = None
+            deadline = time.time() + 20
+            while time.time() < deadline:
+                try:
+                    with urllib.request.urlopen("http://127.0.0.1:%d/api/health" % port, timeout=2) as response:
+                        health = json.loads(response.read().decode("utf-8"))
+                        break
+                except Exception:
+                    time.sleep(0.25)
+        finally:
+            socket.getfqdn = original
+            app.shutdown()
+        self.assertIsNotNone(health, "nonoForge did not start without a DNS lookup")
+        self.assertTrue(health["ok"])
 
 
 class TestTheApp(ServerCase):

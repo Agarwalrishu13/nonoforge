@@ -11,7 +11,7 @@ computer and keeps working with the internet switched off.
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.9+-58a6ff.svg)]()
 [![dependencies](https://img.shields.io/badge/runtime%20deps-0-f0883e.svg)]()
-[![tests](https://img.shields.io/badge/tests-40%20passing-3ddc97.svg)]()
+[![tests](https://img.shields.io/badge/tests-42%20passing-3ddc97.svg)]()
 
 </div>
 
@@ -174,7 +174,7 @@ nonoforge/
 │   ├── httpbase.py     # the mini web toolkit (routing, JSON, SSE, uploads)
 │   ├── runtime/serve.py# the 400-line engine copied into every project it makes
 │   └── recipes/        # the six cards
-├── tests/test_smoke.py # 40 tests, including "does every card actually work"
+├── tests/test_smoke.py # 42 tests, including "does every card actually work"
 └── start.py, run.bat, run.sh
 ```
 
@@ -183,10 +183,17 @@ nonoforge/
   chose. When it is not sure it offers the runners-up.
 - **The build streams.** `/api/create` is a Server-Sent Events stream, so the
   page narrates the build as it happens rather than spinning.
-- **Starting a project is a subprocess with a handshake.** nonoForge launches the
-  project's own `start.py`, waits for the line `nonoforge-ready: <url>` on
-  stdout, and only then opens the browser — so it opens the right page at the
-  right moment, even if the port had to move.
+- **Starting a project is a subprocess with a handshake.** nonoForge picks a
+  free port, launches the project's own `start.py` with `--port`, then knocks on
+  that address until it answers before opening the browser. A page that loads is
+  a stronger promise than a line of output on a pipe — and it is why the same
+  code works on Windows, macOS and Linux, which is not true of the way this
+  worked at first.
+- **No reverse-DNS lookup on the way up.** Python's HTTP server looks up the
+  *name* of the address it just bound. That is free on a healthy machine and
+  tens of seconds of silence when the resolver is slow — which is exactly how
+  every generated project failed on macOS CI. Both engines skip the lookup now,
+  and a test starts them with it rigged to explode.
 - **It will not run a folder it did not make.** Starting an arbitrary folder
   would be a way to run code through a web page, so `/api/start` requires a
   `project.json` written by nonoForge itself.
@@ -197,7 +204,7 @@ nonoforge/
 ## Tests
 
 ```bash
-python -m unittest discover tests -v     # 40 tests, no dependencies
+python -m unittest discover tests -v     # 42 tests, no dependencies
 ```
 
 The interesting ones are not "does this endpoint return 200". They are:

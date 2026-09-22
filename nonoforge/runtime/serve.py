@@ -21,6 +21,7 @@ import inspect
 import json
 import mimetypes
 import socket
+import socketserver
 import sys
 import threading
 import time
@@ -367,6 +368,21 @@ class _Server(ThreadingHTTPServer):
     daemon_threads = True
     allow_reuse_address = True
     app = None
+
+    def server_bind(self):
+        """Bind the port without the reverse-DNS lookup Python does by default.
+
+        ``HTTPServer.server_bind`` calls ``socket.getfqdn(host)`` — a *name
+        lookup for the address we just bound*. For 127.0.0.1 that sounds free,
+        but on a machine whose DNS resolver is slow or unreachable it can block
+        for tens of seconds before the app says a single word. Nothing here
+        uses ``server_name``, so the lookup is pure cost, and skipping it is
+        why this app starts instantly on every machine instead of most.
+        """
+        socketserver.TCPServer.server_bind(self)
+        host, port = self.server_address[:2]
+        self.server_name = host
+        self.server_port = port
 
 
 def free_port(preferred: int, host: str = "127.0.0.1") -> int:
